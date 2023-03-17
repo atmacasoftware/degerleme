@@ -1,0 +1,197 @@
+{% extends 'layout.html' %}
+{% load static %}
+<title>{% block title %}Adresler{% endblock %}</title>
+{% block address %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Adresler</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{% url 'mainpage' %}">Anasayfa</a></li>
+                            <li class="breadcrumb-item">Adresler</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <div class="content">
+            <form method="post" class="pr-5 pl-5">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="name">Şehir Ekle</label>
+                            <input type="text" class="form-control" required
+                                   name="name" placeholder="Şehir adı giriniz..." id="name">
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                        <input type="submit" class="btn btn-primary" name="city_add" value="Ekle">
+                    </div>
+                </div>
+            </form>
+
+            <div class="all-classes  pr-5 pl-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Tüm Şehirler</h3>
+
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" onkeyup="searchFunction();" id="search"
+                                       class="form-control float-right"
+                                       placeholder="Search">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0" style="height: 300px;">
+                        <table class="table table-head-fixed text-nowrap" id="lessonTable">
+                            <thead>
+                            <tr>
+                                <th>Şehir İsmi</th>
+                                <th>Oluşturulma Tarihi</th>
+                                <th>Güncelleme Tarihi</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for c in citys %}
+                                <tr>
+                                    <td><a href="{% url 'address_county' c.id %}">{{ c.name }}</a></td>
+                                    <td>{{ c.created_at }}</td>
+                                    <td>{{ c.updated_at }}</td>
+                                    <td>
+
+                                        <button type="button" class="btn btn-default bg-danger" data-toggle="modal"
+                                                data-target="#model-delete-{{ c.id }}">
+                                            Sil
+                                        </button>
+                                        <button type="button" class="btn btn-default bg-info" data-toggle="modal"
+                                                data-target="#model-update-{{ c.id }}">
+                                            Güncelle
+                                        </button>
+                                        <div class="modal fade" id="model-delete-{{ c.id }}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Silmek istediğinize emin
+                                                            misiniz?</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h5 class="text-bold">Silinecek şehir:</h5>
+                                                        <p>{{ c.name }}</p>
+                                                        <p>**Şehri silmeniz durumunda şehre bağlı ilçelerde
+                                                            silinecektir.</p>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                                data-dismiss="modal">
+                                                            Kapat
+                                                        </button>
+                                                        <a href="{% url 'address_city_delete' c.id %}"
+                                                           class="btn btn-danger">Sil</a>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                        <div class="modal fade" id="model-update-{{ c.id }}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Şehir Güncelle</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="post"
+                                                              action=""
+                                                              class="">
+                                                            {% csrf_token %}
+                                                            <label for="updateName"></label>
+                                                            <input type="hidden" name="city_id" value="{{ c.id }}">
+                                                            <input type="text" class="form-control" required
+                                                                   name="update_name" value="{{ c.name }}" id="updateName">
+                                                            <input type="submit" name="city_update" value="Güncelle"
+                                                                   class="btn btn-primary mt-2">
+
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                                data-dismiss="modal">
+                                                            Kapat
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <span id="no-data"></span>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        function searchFunction() {
+            let input, filter, table, tr, td, j;
+            input = document.getElementById("search");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("lessonTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (j = 0; j < tr.length; j++) {
+                td = tr[j].getElementsByTagName("td");
+                msg = document.getElementById("no-data");
+
+                if (td.length > 0) {
+                    if (td[0].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[1].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[2].innerHTML.toLocaleLowerCase().indexOf(filter) > -1) {
+                        tr[j].style.display = ""
+                        msg.innerHTML = ""
+                    } else {
+                        tr[j].style.display = "none"
+                    }
+                }
+
+                if (td.length == 0) {
+                    msg.innerHTML = "Aramanızla eşleşen kayıt bulunamadı."
+                }
+
+            }
+        }
+    </script>
+{% endblock %}
