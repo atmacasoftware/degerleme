@@ -15,6 +15,7 @@ from expert_info.forms import *
 import math
 import folium
 
+
 # Create your views here.
 
 def login(request):
@@ -276,13 +277,13 @@ def show_rapor(request, id):
     report = RaporEkle.objects.get(id=id)
     context.update({'report': report})
     form = RaporEkleUpdateForm(instance=report, data=request.POST or None, files=request.FILES or None)
-    context.update({'form':form})
+    context.update({'form': form})
 
-    map = folium.Map(location=[report.enlem, report.boylam],zoom_start=15)
+    map = folium.Map(location=[report.enlem, report.boylam], zoom_start=15)
     folium.Marker([report.enlem, report.boylam], popup=report.rapor_no, draggable=False).add_to(map)
     map = map._repr_html_()
     context.update({
-        'map':map
+        'map': map
     })
 
     if 'update_report' in request.POST:
@@ -292,7 +293,7 @@ def show_rapor(request, id):
             data.updated_at = update_time
             data.save()
             messages.success(request, 'Rapor başarıyla güncellendi!')
-            return redirect('show_rapor',id)
+            return redirect('show_rapor', id)
 
     return render(request, 'pages/show_report.html', context)
 
@@ -309,10 +310,15 @@ def near_rapor(request):
     context = {}
     all_reports = RaporEkle.objects.all()
     query_reports = []
+
     if 'query' in request.POST:
         enlem = request.POST.get('enlem', None)
         boylam = request.POST.get('boylam', None)
         mesafe = request.POST.get('mesafe', None)
+
+        map = folium.Map(location=[enlem, boylam], zoom_start=8)
+        folium.Marker([enlem, boylam], popup="Hedef", icon=folium.Icon(color='black',icon_color='#FFFF00'),
+                      draggable=False).add_to(map)
 
         if enlem != '' and boylam != '' and mesafe != '':
 
@@ -322,10 +328,22 @@ def near_rapor(request):
                 q = (math.sqrt(sql1 + sql2)) * 1000
                 if q <= float(mesafe):
                     query_reports.append(r)
+
+            for q in query_reports:
+                folium.Marker([q.enlem, q.boylam], popup=q.rapor_no,
+                              draggable=False).add_to(map)
+
+            map = map._repr_html_()
+
+            context.update({
+                'map': map
+            })
+
         else:
             messages.warning(request, 'Tüm alanların doldurulması gereklidir!')
             return redirect('near_rapor')
     context.update({'query_reports': query_reports})
+
     return render(request, 'pages/near_reports.html', context)
 
 
@@ -522,6 +540,7 @@ def get_json_prim(request, *args, **kwargs):
 
     return JsonResponse({'data': prim})
 
+
 @login_required(login_url="/giris-yap")
 def yapi_birim_maliyetleri(request):
     context = {}
@@ -571,6 +590,7 @@ def update_yapi_birim_maliyeti(request, id):
 
     return render(request, 'pages/buildcoast_update.html', context)
 
+
 @login_required(login_url="/giris-yap")
 def imar_plani_onay_tarihleri(request):
     context = {}
@@ -618,13 +638,14 @@ def update_imar_plani_onay_tarihi(request, id):
 
     return render(request, 'pages/imarplani_update.html', context)
 
+
 def load_ilceler(request):
     city_id = request.GET.get('city_id')
     ilceler = County.objects.filter(city_id=city_id)
-    return render(request, 'partials/dropdown_ilceler.html', {'ilceler':ilceler})
+    return render(request, 'partials/dropdown_ilceler.html', {'ilceler': ilceler})
 
 
 def load_mahalleler(request):
     county_id = request.GET.get('county_id')
     mahalleler = Neighbourhood.objects.filter(county_id=county_id)
-    return render(request, 'partials/dropdown_mahalleler.html', {'mahalleler':mahalleler})
+    return render(request, 'partials/dropdown_mahalleler.html', {'mahalleler': mahalleler})
