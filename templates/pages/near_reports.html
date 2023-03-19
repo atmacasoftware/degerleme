@@ -1,0 +1,188 @@
+{% extends 'layout.html' %}
+{% load static %}
+<title>{% block title %}Yakın Rapor{% endblock %}</title>
+{% block near_rapor %}
+
+    <script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Yakn Rapor</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{% url 'mainpage' %}">Anasayfa</a></li>
+                            <li class="breadcrumb-item">Yakın Rapor</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <div class="content">
+            <div class="row p-0 m-0">
+                <div class="col-lg-6">
+                    <form action="" method="post" class="pt-2"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="id_enlem">Enlem</label>
+                                    <input type="number" name="enlem" step="any" class="form-control"
+                                           required="" id="id_enlem">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_boylam">Boylam</label>
+                                    <input type="number" name="boylam" step="any" class="form-control"
+                                           required="" id="id_boylam">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_mesafe">Mesafe</label>
+                                    <input type="number" name="mesafe" step="any" class="form-control"
+                                           required="" id="id_mesafe">
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <input type="submit" class="btn btn-primary" name="query" value="Sorgula">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+                    <div class="all-classes pt-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Tüm Yakın Raporlar</h3>
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <input type="text" name="table_search" onkeyup="searchFunction();" id="search"
+                                               class="form-control float-right"
+                                               placeholder="Search">
+
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body table-responsive p-0" style="height: 300px;">
+                                <table class="table table-head-fixed text-nowrap" id="courseTable">
+                                    <thead>
+                                    <tr id="check-th">
+                                        <th>Rapor Numarası</th>
+                                        <th>İl</th>
+                                        <th>İlçe</th>
+                                        <th>Mahalle</th>
+                                        <th>Ada</th>
+                                        <th>Parsel</th>
+                                        <th>Enlem</th>
+                                        <th>Boylam</th>
+                                        <th>Ana Taşınmaz Nitelik</th>
+                                        <th>Nitelik</th>
+                                        <th>Yüzölçüm</th>
+                                        <th>Değer</th>
+                                        <th>Kat</th>
+                                        <th>Oda Sayısı</th>
+                                        <th>Isınma Sistemi</th>
+                                        <th>Değer Tarihi</th>
+                                        <th>Asansör</th>
+                                        <th>Otopark</th>
+                                        <th>Güvenlik</th>
+                                        <th>Yapı Kalitesi</th>
+                                        <th>Yapım Yılı</th>
+                                        <th>Dosya Konumu</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for qr in query_reports %}
+                                        <tr>
+                                            <td>{{ qr.rapor_no }}</td>
+                                            <td>{{ qr.il }}</td>
+                                            <td>{{ qr.ilce }}</td>
+                                            <td>{{ qr.mahalle }}</td>
+                                            <td>{{ qr.ada }}</td>
+                                            <td>{{ qr.parsel }}</td>
+                                            <td>{{ qr.enlem }}</td>
+                                            <td>{{ qr.boylam }}</td>
+                                            <td>{{ qr.ana_tasinmaz_nitelik }}</td>
+                                            <td>{{ qr.nitelik }}</td>
+                                            <td>{{ qr.yuzolcum }}</td>
+                                            <td>{{ qr.deger }}</td>
+                                            <td>{{ qr.kat }}</td>
+                                            <td>{{ qr.oda_sayisi }}</td>
+                                            <td>{{ qr.get_isinma_sistemi_display }}</td>
+                                            <td>{{ qr.deger_tarihi }}</td>
+                                            <td>{{ qr.get_asansor_display }}</td>
+                                            <td>{{ qr.get_otopark_display }}</td>
+                                            <td>{{ qr.get_guvenlik_display }}</td>
+                                            <td>{{ qr.get_yapi_kalitesi_display }}</td>
+                                            <td>{{ qr.yapim_yili }}</td>
+                                            <td>{{ qr.dosya_konumu }}</td>
+                                            <td>
+                                                <a href="{% url 'show_rapor' qr.id %}"
+                                                   class="btn btn-sm btn-primary">Görüntüle</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <span id="no-data"></span>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="{% static 'js/admin/course.js' %}"></script>
+    <script src="{% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+
+    <script src="{% static 'js/admin/get_categories.js' %}"></script>
+
+    <script>
+        function searchFunction() {
+            let input, filter, table, tr, td, j;
+            input = document.getElementById("search");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("courseTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (j = 0; j < tr.length; j++) {
+                td = tr[j].getElementsByTagName("td");
+                msg = document.getElementById("no-data");
+
+                if (td.length > 0) {
+                    if (td[0].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[1].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[2].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[3].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[4].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[5].innerHTML.toLocaleLowerCase().indexOf(filter) > -1) {
+                        tr[j].style.display = ""
+                        msg.innerHTML = ""
+                    } else {
+                        tr[j].style.display = "none"
+                    }
+                }
+
+                if (td.length == 0) {
+                    msg.innerHTML = "Aramanızla eşleşen kayıt bulunamadı."
+                }
+
+            }
+        }
+    </script>
+
+{% endblock %}

@@ -1,0 +1,273 @@
+{% extends 'layout.html' %}
+{% load static %}
+<title>{% block title %}Rapor Ekle{% endblock %}</title>
+{% block rapor %}
+
+    <style>
+        form p {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+
+    <script src="{% static "plugins/jquery/jquery.min.js" %}"></script>
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Rapor Ekle</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{% url 'mainpage' %}">Anasayfa</a></li>
+                            <li class="breadcrumb-item">Rapor Ekle</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+        <div class="content">
+            <div class="row p-0 m-0">
+                <div class="col-lg-12">
+                    <form action="" method="post" class="pt-2"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_rapor_no">Rapor Numarası</label>
+                                            <input type="text" class="form-control" required
+                                                   name="rapor_no" id="id_rapor_no">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_il">İl</label>
+                                            <select name="il" class="form-control" required="" id="id_il">
+                                                <option value="">---------</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_ilce">İlce</label>
+                                            <select name="ilce" class="form-control" required="" id="id_ilce">
+                                                <option value="">---------</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_mahalle">Mahalle</label>
+                                            <select name="mahalle" class="form-control" required="" id="id_mahalle">
+                                                <option value="">---------</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_ada">Ada</label>
+                                            <input type="number" name="ada" min="-9223372036854775808"
+                                                   max="9223372036854775807" class="form-control" required=""
+                                                   id="id_ada">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_parsel">Parsel</label>
+                                            <input type="number" name="parsel" min="-9223372036854775808"
+                                                   max="9223372036854775807" class="form-control" required=""
+                                                   id="id_parsel">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_enlem">Enlem</label>
+                                            <input type="number" name="enlem" step="any"
+                                                   class="form-control" required="" id="id_enlem">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_boylam">Boylam</label>
+                                            <input type="number" name="boylam" step="any"
+                                                   class="form-control" required="" id="id_boylam"></div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_ana_tasinmaz_nitelik">Ana Taşınmaz Nitelik</label>
+                                            <input type="text" name="ana_tasinmaz_nitelik" maxlength="500"
+                                                   class="form-control" required="" id="id_ana_tasinmaz_nitelik">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_nitelik">Nitelik</label>
+                                            <input type="text" name="nitelik" maxlength="500" class="form-control"
+                                                   required="" id="id_nitelik">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_yuzolcum">Yüzölçüm</label>
+                                            <input type="number" name="yuzolcum" step="any" class="form-control"
+                                                   required="" id="id_yuzolcum">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_deger">Değer</label>
+                                            <input type="number" name="deger" step="any" class="form-control"
+                                                   required="" id="id_deger">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_kat">Kat</label>
+                                            <input type="text" name="kat" maxlength="255" class="form-control"
+                                                   id="id_kat">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_oda_sayisi">Oda Sayısı</label>
+                                            <input type="text" name="oda_sayisi" maxlength="255" class="form-control"
+                                                   id="id_oda_sayisi">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_isinma_sistemi">Isınma Sistemi</label>
+                                            <select name="isinma_sistemi" class="form-control" required=""
+                                                    id="id_isinma_sistemi">
+                                                <option value="" selected="">---------</option>
+                                                <option value="1">MERKEZİ SİSTEM</option>
+                                                <option value="2">KOMBİ</option>
+                                                <option value="3">SOBA</option>
+                                                <option value="4">YOK</option>
+                                                <option value="6">DİĞER</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_deger_tarihi">Değer Tarihi</label>
+                                            <input type="date" name="deger_tarihi" class="form-control form-control"
+                                                   required="" id="id_deger_tarihi">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_asansor">Asansör</label>
+                                            <select name="asansor" class="form-control" required="" id="id_asansor">
+                                                <option value="" selected="">---------</option>
+                                                <option value="1">VAR</option>
+                                                <option value="2">YOK</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_otopark">Otopark</label>
+                                            <select name="otopark" class="form-control" required="" id="id_otopark">
+                                                <option value="" selected="">---------</option>
+                                                <option value="1">VAR</option>
+                                                <option value="2">YOK</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_guvenlik">Güvenlik</label>
+                                            <select name="guvenlik" class="form-control" required="" id="id_guvenlik">
+                                                <option value="" selected="">---------</option>
+                                                <option value="1">VAR</option>
+                                                <option value="2">YOK</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_yapi_kalitesi">Yapı Kalitesi</label>
+                                            <select name="yapi_kalitesi" class="form-control" required=""
+                                                    id="id_yapi_kalitesi">
+                                                <option value="" selected="">---------</option>
+                                                <option value="1">LÜKS</option>
+                                                <option value="2">İYİ</option>
+                                                <option value="3">ORTA</option>
+                                                <option value="4">DÜŞÜK</option>
+                                                <option value="5">YAPI YOK</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_yapim_yili">Yapım Yılı</label>
+                                            <input type="number" name="yapim_yili" min="0" max="9223372036854775807"
+                                                   class="form-control" id="id_yapim_yili">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="form-group">
+                                            <label for="id_dosya_konumu">Dosya Konumu</label>
+                                            <input type="text" name="dosya_konumu" maxlength="500" class="form-control" required="" id="id_dosya_konumu">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <input type="submit" class="btn btn-primary" name="add_reports" value="Ekle">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="{% static "plugins/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+    <script src="{% static 'js/address.js' %}"></script>
+
+    <script>
+        function searchFunction() {
+            let input, filter, table, tr, td, j;
+            input = document.getElementById("search");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("courseTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (j = 0; j < tr.length; j++) {
+                td = tr[j].getElementsByTagName("td");
+                msg = document.getElementById("no-data");
+
+                if (td.length > 0) {
+                    if (td[0].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[1].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[2].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[3].innerHTML.toLocaleLowerCase().indexOf(filter) > -1 ||
+                        td[4].innerHTML.toLocaleLowerCase().indexOf(filter) > -1) {
+                        tr[j].style.display = ""
+                        msg.innerHTML = ""
+                    } else {
+                        tr[j].style.display = "none"
+                    }
+                }
+
+                if (td.length == 0) {
+                    msg.innerHTML = "Aramanızla eşleşen kayıt bulunamadı."
+                }
+            }
+        }
+    </script>
+
+{% endblock %}

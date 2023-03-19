@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-9"/>
     <title>{% block title %}{% endblock %}</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -29,13 +30,14 @@
     <link rel="stylesheet" href="{% static 'plugins/daterangepicker/daterangepicker.css' %}">
     <!-- summernote -->
     <link rel="stylesheet" href="{% static 'plugins/summernote/summernote-bs4.min.css' %}">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+        <img class="animation__shake" src="{% static 'img/logo.png' %}" alt="AdminLTELogo" height="60" width="120">
     </div>
 
     {% include 'partials/message.html' %}
@@ -48,6 +50,22 @@
     {% block mainpage %}
     {% endblock %}
     {% block address %}
+    {% endblock %}
+    {% block rapor %}
+    {% endblock %}
+    {% block all_reports %}
+    {% endblock %}
+    {% block salary %}
+    {% endblock %}
+    {% block prim %}
+    {% endblock %}
+    {% block car_rent %}
+    {% endblock %}
+    {% block near_rapor %}
+    {% endblock %}
+    {% block build_coast %}
+    {% endblock %}
+    {% block imar_tarihi %}
     {% endblock %}
     <!-- /.content-wrapper -->
 
